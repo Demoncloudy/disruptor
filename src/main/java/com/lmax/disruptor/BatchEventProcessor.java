@@ -147,6 +147,7 @@ public final class BatchEventProcessor<T>
                     while (nextSequence <= availableSequence)
                     {
                         event = dataProvider.get(nextSequence);
+                        // 具体的消费
                         eventHandler.onEvent(event, nextSequence, nextSequence == availableSequence);
                         nextSequence++;
                     }

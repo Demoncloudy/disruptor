@@ -173,8 +173,9 @@ public final class RingBuffer<E> extends RingBufferFields<E> implements Cursored
         int bufferSize,
         WaitStrategy waitStrategy)
     {
+        // 创建sequencer
         SingleProducerSequencer sequencer = new SingleProducerSequencer(bufferSize, waitStrategy);
-
+        // sequencer放入RingBuffer中
         return new RingBuffer<E>(factory, sequencer);
     }
 
@@ -210,9 +211,12 @@ public final class RingBuffer<E> extends RingBufferFields<E> implements Cursored
         int bufferSize,
         WaitStrategy waitStrategy)
     {
-        switch (producerType)
-        {
+        switch (producerType) {
             // 一个事件发布
+            // 单生产者和多生产者类型都需要创建的，根据ProducerType取值；
+            // 作用就是用来协调生产者获取下一个可用序号、发布消息(发布下一个可用序号), 包括唤醒wait状态的；
+            //- SingleProducerSequencer：处理单个生产者
+            //- MultiProducerSequencer：处理多个生产者
             case SINGLE:
                 return createSingleProducer(factory, bufferSize, waitStrategy);
             case MULTI:

@@ -53,6 +53,7 @@ abstract class SingleProducerSequencerFields extends SingleProducerSequencerPad
 
 public final class SingleProducerSequencer extends SingleProducerSequencerFields
 {
+    // 7 * 8 = 56, 加上自己64, 填充缓冲行
     protected long p1, p2, p3, p4, p5, p6, p7;
 
     /**

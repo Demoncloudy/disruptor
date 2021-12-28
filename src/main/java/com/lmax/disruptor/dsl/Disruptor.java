@@ -535,7 +535,7 @@ public class Disruptor<T>
         for (int i = 0, eventHandlersLength = eventHandlers.length; i < eventHandlersLength; i++)
         {
             final EventHandler<? super T> eventHandler = eventHandlers[i];
-
+            // 每个handler对应一个BatchEventProcessor
             final BatchEventProcessor<T> batchEventProcessor =
                 new BatchEventProcessor<T>(ringBuffer, barrier, eventHandler);
 
@@ -543,7 +543,7 @@ public class Disruptor<T>
             {
                 batchEventProcessor.setExceptionHandler(exceptionHandler);
             }
-
+            // 放入consumerRepository
             consumerRepository.add(batchEventProcessor, eventHandler, barrier);
             processorSequences[i] = batchEventProcessor.getSequence();
         }

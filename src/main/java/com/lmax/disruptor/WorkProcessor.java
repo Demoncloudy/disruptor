@@ -140,6 +140,7 @@ public final class WorkProcessor<T>
                 if (cachedAvailableSequence >= nextSequence)
                 {
                     event = ringBuffer.get(nextSequence);
+                    // 具体的消费
                     workHandler.onEvent(event);
                     processedSequence = true;
                 }

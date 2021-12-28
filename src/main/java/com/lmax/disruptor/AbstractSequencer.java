@@ -15,10 +15,10 @@
  */
 package com.lmax.disruptor;
 
+import com.lmax.disruptor.util.Util;
+
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
-
-import com.lmax.disruptor.util.Util;
 
 /**
  * Base class for the various sequencer types (single/multi).  Provides
@@ -32,6 +32,7 @@ public abstract class AbstractSequencer implements Sequencer
 
     protected final int bufferSize;
     protected final WaitStrategy waitStrategy;
+    // 通过顺序递增的序号，来管理进行交换的数据（发布事件和消费数据）
     protected final Sequence cursor = new Sequence(Sequencer.INITIAL_CURSOR_VALUE);
     protected volatile Sequence[] gatingSequences = new Sequence[0];
 

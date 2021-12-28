@@ -33,7 +33,9 @@ public class DSMain {
 					}
 				},
 				ProducerType.SINGLE, new BlockingWaitStrategy());
-
+		// 内部创建 SequenceBarrier 和
+		// 单消费者com.lmax.disruptor.BatchEventProcessor
+		// 多消费者com.lmax.disruptor.WorkProcessor
 		disruptor.handleEventsWith(new OrderEventHandler());
 
 		disruptor.start();
