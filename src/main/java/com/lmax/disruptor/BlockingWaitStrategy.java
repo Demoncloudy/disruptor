@@ -55,7 +55,7 @@ public final class BlockingWaitStrategy implements WaitStrategy
         {
             barrier.checkAlert();
         }
-
+        // 返回可用的序号
         return availableSequence;
     }
 
@@ -63,8 +63,9 @@ public final class BlockingWaitStrategy implements WaitStrategy
     public void signalAllWhenBlocking()
     {
         lock.lock();
-        try
-        {
+        try {
+            // 唤醒wait for 中的线程
+            // com.lmax.disruptor.BlockingWaitStrategy.waitFor
             processorNotifyCondition.signalAll();
         }
         finally

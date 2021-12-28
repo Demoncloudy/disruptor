@@ -15,9 +15,9 @@
  */
 package com.lmax.disruptor;
 
-import java.util.concurrent.locks.LockSupport;
-
 import com.lmax.disruptor.util.Util;
+
+import java.util.concurrent.locks.LockSupport;
 
 abstract class SingleProducerSequencerPad extends AbstractSequencer
 {
@@ -204,6 +204,7 @@ public final class SingleProducerSequencer extends SingleProducerSequencerFields
     public void publish(long sequence)
     {
         cursor.set(sequence);
+        // 唤醒等待的线程
         waitStrategy.signalAllWhenBlocking();
     }
 

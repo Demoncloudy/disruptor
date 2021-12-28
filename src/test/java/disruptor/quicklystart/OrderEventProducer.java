@@ -28,7 +28,7 @@ public class OrderEventProducer {
 			//	重新设置内容
 			event.setValue(bb.getLong(0));
 		} finally {
-			//	publish
+			//	publish 告诉消费者,下一个消息来了
 			ringBuffer.publish(sequence);
 		}
 	}
