@@ -16,10 +16,9 @@
 package com.lmax.disruptor;
 
 
-import sun.misc.Unsafe;
-
 import com.lmax.disruptor.dsl.ProducerType;
 import com.lmax.disruptor.util.Util;
+import sun.misc.Unsafe;
 
 abstract class RingBufferPad
 {
@@ -64,11 +63,12 @@ abstract class RingBufferFields<E> extends RingBufferPad
     {
         this.sequencer = sequencer;
         this.bufferSize = sequencer.getBufferSize();
-
+        // 默认环大小
         if (bufferSize < 1)
         {
             throw new IllegalArgumentException("bufferSize must not be less than 1");
         }
+        // 不是2的幂
         if (Integer.bitCount(bufferSize) != 1)
         {
             throw new IllegalArgumentException("bufferSize must be a power of 2");
@@ -76,6 +76,7 @@ abstract class RingBufferFields<E> extends RingBufferPad
 
         this.indexMask = bufferSize - 1;
         this.entries = new Object[sequencer.getBufferSize() + 2 * BUFFER_PAD];
+        // 填充
         fill(eventFactory);
     }
 
@@ -83,6 +84,7 @@ abstract class RingBufferFields<E> extends RingBufferPad
     {
         for (int i = 0; i < bufferSize; i++)
         {
+            // 遍历每个位置, 填充对象
             entries[BUFFER_PAD + i] = eventFactory.newInstance();
         }
     }
@@ -210,6 +212,7 @@ public final class RingBuffer<E> extends RingBufferFields<E> implements Cursored
     {
         switch (producerType)
         {
+            // 一个事件发布
             case SINGLE:
                 return createSingleProducer(factory, bufferSize, waitStrategy);
             case MULTI:
